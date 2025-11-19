@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\student;
+use App\Models\Student;
 
-class studentController extends Controller
+class StudentController extends Controller
 {
     public function index()
     {
-        $students = student::all();
-        return view('student.view', compact('students'));
+        $students = Student::all();
+        return view('student.index', compact('students'));
     }
 
     public function create()
@@ -30,25 +30,25 @@ class studentController extends Controller
             'fakultas' => 'required',
         ]);
         
-        student::create($request->all());
+        Student::create($request->all());
         return redirect()->route('dashboard')->with('success', 'Data Mahasiswa berhasil ditambahkan');
     }
 
     public function show(string $id)
     {
-        $student = student::findOrFail($id);
-        return view('student.edit', compact('student'));
+        $student = Student::findOrFail($id);
+        return view('student.show', compact('student'));
     }
 
     public function edit(string $id)
     {
-        $student = student::findOrFail($id);
+        $student = Student::findOrFail($id);
         return view('student.edit', compact('student'));
     }
 
     public function update(Request $request, string $id)
     {
-        $student = student::findOrFail($id);
+        $student = Student::findOrFail($id);
 
         $request->validate([
             'nim' => 'required|unique:students,nim,'.$id,
@@ -66,7 +66,7 @@ class studentController extends Controller
 
     public function destroy(string $id)
     {
-        $student = student::findOrFail($id);
+        $student = Student::findOrFail($id);
         $student->delete();
         return redirect()->route('dashboard')->with('success', 'Data Mahasiswa berhasil dihapus');
     }
